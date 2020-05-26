@@ -1,6 +1,7 @@
 from discord.ext.commands import Bot
 from config import discord_token
 from utils.logger import logger_mcloggyface as log
+import content
 
 prefix = '!'
 bot = Bot(command_prefix=prefix, help_command=None)
@@ -29,29 +30,12 @@ async def test(ctx):
 
 @bot.command(pass_context=True, name='help')
 async def help_cmd(ctx):
-    response = """```markdown
-# Here's what works so far..
-!help - this thing
-!fr <feature> - request a feature for the bot
-!sched/!dates - important dates
-
-# These commands are in development..
-<none>
-```"""
-    await ctx.send(response)
+    await ctx.send(content.help_message)
 
 
 @bot.command(pass_context=True, aliases=['dates'])
 async def sched(ctx):
-    response = """```markdown
-# Important dates:
-● Top Ten Final Event Applications Due: June 4, 2020, 8:00pm (EDT)
-● Qualification Event Top Ten Technical Papers Due: June 14, 2020, 8:00pm (EDT)
-● Top Ten Final Event Invitations sent: June 24, 2020
-● Final Event Start: August 7, 2020, 10:00am (EDT)
-● Final Event Conclusion: August 9, 2020, 12:00pm (EDT)
-● Final Event Top Ten Technical Papers Due: August 30, 2020, 8:00pm (EDT)```"""
-    await ctx.send(response)
+    await ctx.send(content.dates)
 
 
 @bot.command(pass_context=True)
