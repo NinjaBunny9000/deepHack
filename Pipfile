@@ -1,0 +1,15 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pylama = "*"
+rope = "*"
+
+[packages]
+discord-py = {extras = ["voice"],version = "*"}
+pyaml = "*"
+
+[requires]
+python_version = "3.8"
