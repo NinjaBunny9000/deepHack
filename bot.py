@@ -30,7 +30,7 @@ async def test(ctx):
 
 @bot.command(pass_context=True, name='help')
 async def help_cmd(ctx):
-    await ctx.send(content.help_message)
+    await ctx.send(content.help_msg)
 
 
 @bot.command(pass_context=True, aliases=['dates'])
@@ -40,12 +40,40 @@ async def sched(ctx):
 
 @bot.command(pass_context=True)
 async def fr(ctx, *, message:str):
-    with open('data/features.todo', 'a') as feature_file:
-        try:
-            feature_file.write(f"\t{message} @{ctx.message.author.name}\n")
-            await ctx.send(f'Feature requested: `{message}`')
-        except UnicodeEncodeError:
-            await ctx.send(f'{ctx.message.author.mention}, try requesting a feature that\'s less... *fancy*.. 🙄')
+    try:
+        with open('data/features.todo', 'ab') as feature_file:
+            feature_request = f"\t☐ {message} @{ctx.message.author.name}\n".encode("utf8")
+            feature_file.write(feature_request)
+        await ctx.send(f'Feature requested: `{message}`')
+    except UnicodeEncodeError:
+        await ctx.send(f'YOU SOMEHOW STILL BROKE THE THING, {ctx.message.author.mention}! \
+            Try requesting a feature that\'s less... *fancy*.. xD')
+
+@bot.command(pass_context=True)
+async def requests(ctx):
+    requests = open('data/features.todo', 'rb')
+    requests = requests.read().decode("utf8")
+    requests = requests.split('requested features:')
+    requests = requests[1]
+    requests = requests.replace('    ', '').replace('☐ ', '- ').replace('\t', '').replace('\r', '')
+    print(repr(requests))
+    await ctx.send(f"```markdown\n# REQUESTED FEATURES:\n{requests}```")
+
+
+@bot.group()
+async def challenge(ctx):
+    if ctx.invoked_subcommand is None:
+        await ctx.send("Command format: `!challenge new <name> <link>`")
+
+@challenge.command()
+async def new(ctx, name: str, link: str):
+    await ctx.send(f"Challenge {name} created. Link: {link}")
+    # add challenge to a list of challenges
+    # create a text channel using challenge name
+    # set the channel description to use the name as the link
+    # create a voice channel
+    # inform PM's that a new challenge was created
+
 
 
 bot.run(discord_token)

@@ -1,11 +1,12 @@
 help_msg = """```markdown
 # Here's what works so far..
 !help - this thing
-!fr <feature> - request a feature for the bot
 !sched/!dates - important dates
+!fr <feature> - request a feature for the bot
+!requests - list requested features
 
 # These commands are in development..
-<none>
+*none*
 ```"""
 
 dates = """```markdown
